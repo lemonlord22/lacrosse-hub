@@ -14,16 +14,262 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      announcements: {
+        Row: {
+          audience: Database["public"]["Enums"]["audience"]
+          author_id: string
+          body: string
+          created_at: string
+          id: string
+          pinned: boolean
+          title: string
+        }
+        Insert: {
+          audience?: Database["public"]["Enums"]["audience"]
+          author_id: string
+          body: string
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          title: string
+        }
+        Update: {
+          audience?: Database["public"]["Enums"]["audience"]
+          author_id?: string
+          body?: string
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          title?: string
+        }
+        Relationships: []
+      }
+      documents: {
+        Row: {
+          category: string
+          created_at: string
+          file_path: string
+          id: string
+          name: string
+          uploaded_by: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          file_path: string
+          id?: string
+          name: string
+          uploaded_by: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          file_path?: string
+          id?: string
+          name?: string
+          uploaded_by?: string
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          audience: Database["public"]["Enums"]["audience"]
+          created_at: string
+          created_by: string
+          description: string | null
+          end_at: string | null
+          id: string
+          location: string | null
+          map_url: string | null
+          notes: string | null
+          start_at: string
+          title: string
+        }
+        Insert: {
+          audience?: Database["public"]["Enums"]["audience"]
+          created_at?: string
+          created_by: string
+          description?: string | null
+          end_at?: string | null
+          id?: string
+          location?: string | null
+          map_url?: string | null
+          notes?: string | null
+          start_at: string
+          title: string
+        }
+        Update: {
+          audience?: Database["public"]["Enums"]["audience"]
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          end_at?: string | null
+          id?: string
+          location?: string | null
+          map_url?: string | null
+          notes?: string | null
+          start_at?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          id: string
+          pinned: boolean
+          room: Database["public"]["Enums"]["chat_room"]
+        }
+        Insert: {
+          author_id: string
+          body: string
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          room: Database["public"]["Enums"]["chat_room"]
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          id?: string
+          pinned?: boolean
+          room?: Database["public"]["Enums"]["chat_room"]
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          child_name: string | null
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          phone: string | null
+          team_level: Database["public"]["Enums"]["team_level"]
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          child_name?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id: string
+          phone?: string | null
+          team_level?: Database["public"]["Enums"]["team_level"]
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          child_name?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          phone?: string | null
+          team_level?: Database["public"]["Enums"]["team_level"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      rsvps: {
+        Row: {
+          comment: string | null
+          event_id: string
+          id: string
+          status: Database["public"]["Enums"]["rsvp_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          comment?: string | null
+          event_id: string
+          id?: string
+          status: Database["public"]["Enums"]["rsvp_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          comment?: string | null
+          event_id?: string
+          id?: string
+          status?: Database["public"]["Enums"]["rsvp_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rsvps_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      can_see_audience: {
+        Args: {
+          _audience: Database["public"]["Enums"]["audience"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      can_see_room: {
+        Args: {
+          _room: Database["public"]["Enums"]["chat_room"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      get_team_level: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["team_level"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "coach" | "player" | "parent"
+      audience: "all" | "parents" | "jv" | "varsity" | "coaches"
+      chat_room: "parents" | "jv" | "varsity" | "coaches" | "all"
+      rsvp_status: "going" | "maybe" | "not_going"
+      team_level: "jv" | "varsity" | "parent" | "coach" | "none"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +396,12 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "coach", "player", "parent"],
+      audience: ["all", "parents", "jv", "varsity", "coaches"],
+      chat_room: ["parents", "jv", "varsity", "coaches", "all"],
+      rsvp_status: ["going", "maybe", "not_going"],
+      team_level: ["jv", "varsity", "parent", "coach", "none"],
+    },
   },
 } as const
