@@ -130,7 +130,15 @@ function Page() {
                     <p className="text-sm text-muted-foreground">{format(new Date(e.start_at), "EEE, MMM d · p")}</p>
                     {e.location && (
                       <p className="mt-1 flex items-center gap-1 text-sm">
-                        <MapPin className="h-3 w-3" /> {e.map_url ? <a href={e.map_url} target="_blank" rel="noreferrer" className="text-primary hover:underline">{e.location}</a> : e.location}
+                        <MapPin className="h-3 w-3" />
+                        <a
+                          href={e.map_url || `https://maps.google.com/?q=${encodeURIComponent(e.location)}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-primary hover:underline"
+                        >
+                          {e.location}
+                        </a>
                       </p>
                     )}
                     {e.description && <p className="mt-2 text-sm">{e.description}</p>}
@@ -141,9 +149,9 @@ function Page() {
 
                 <div className="mt-4 flex flex-wrap items-center gap-2 border-t pt-3">
                   <span className="text-xs text-muted-foreground mr-2">RSVP:</span>
-                  <Button size="sm" variant={my === "going" ? "default" : "outline"} onClick={() => rsvp(e.id, "going")}><Check className="mr-1 h-3 w-3" /> Going · {c.going}</Button>
-                  <Button size="sm" variant={my === "maybe" ? "default" : "outline"} onClick={() => rsvp(e.id, "maybe")}><HelpCircle className="mr-1 h-3 w-3" /> Maybe · {c.maybe}</Button>
-                  <Button size="sm" variant={my === "not_going" ? "default" : "outline"} onClick={() => rsvp(e.id, "not_going")}><X className="mr-1 h-3 w-3" /> No · {c.not_going}</Button>
+                  <Button className="kinetic-button field-tap" size="sm" variant={my === "going" ? "default" : "outline"} onClick={() => rsvp(e.id, "going")}><Check className="mr-1 h-3 w-3" /> Going · {c.going}</Button>
+                  <Button className="kinetic-button field-tap" size="sm" variant={my === "maybe" ? "default" : "outline"} onClick={() => rsvp(e.id, "maybe")}><HelpCircle className="mr-1 h-3 w-3" /> Maybe · {c.maybe}</Button>
+                  <Button className="kinetic-button field-tap" size="sm" variant={my === "not_going" ? "default" : "outline"} onClick={() => rsvp(e.id, "not_going")}><X className="mr-1 h-3 w-3" /> No · {c.not_going}</Button>
                 </div>
               </CardContent>
             </Card>
