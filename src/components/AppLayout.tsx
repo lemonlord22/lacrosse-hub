@@ -1,16 +1,16 @@
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, Megaphone, Calendar, MessageSquare, FolderOpen, Shield, LogOut, Menu, X } from "lucide-react";
+import { LayoutDashboard, Calendar, MessageSquare, GraduationCap, Image as ImageIcon, Shield, LogOut, Menu, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const nav = [
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/announcements", label: "Announcements", icon: Megaphone },
-  { to: "/schedule", label: "Schedule", icon: Calendar },
-  { to: "/chats", label: "Chats", icon: MessageSquare },
-  { to: "/documents", label: "Documents", icon: FolderOpen },
+  { to: "/dashboard", label: "Home", icon: LayoutDashboard },
+  { to: "/lab", label: "Lab", icon: GraduationCap },
+  { to: "/gallery", label: "Media", icon: ImageIcon },
+  { to: "/schedule", label: "Field", icon: Calendar },
+  { to: "/chats", label: "Comms", icon: MessageSquare },
 ] as const;
 
 export function AppLayout({ children }: { children: ReactNode }) {

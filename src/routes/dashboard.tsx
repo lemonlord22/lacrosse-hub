@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Megaphone, Calendar, MessageSquare, FolderOpen, Pin } from "lucide-react";
+import { Megaphone, Calendar, MessageSquare, FolderOpen, Pin, Play, Image as ImageIcon } from "lucide-react";
 import { format } from "date-fns";
 
 export const Route = createFileRoute("/dashboard")({ component: () => <AuthGuard><Dashboard /></AuthGuard> });
@@ -16,16 +16,50 @@ function Dashboard() {
   const [announcements, setAnnouncements] = useState<any[]>([]);
   const [events, setEvents] = useState<any[]>([]);
   const [docs, setDocs] = useState<any[]>([]);
+  const [drill, setDrill] = useState<any | null>(null);
+  const [pulse, setPulse] = useState<any[]>([]);
 
   useEffect(() => {
     supabase.from("announcements").select("*").order("pinned", { ascending: false }).order("created_at", { ascending: false }).limit(4).then(({ data }) => setAnnouncements(data ?? []));
     supabase.from("events").select("*").gte("start_at", new Date().toISOString()).order("start_at").limit(4).then(({ data }) => setEvents(data ?? []));
     supabase.from("documents").select("*").order("created_at", { ascending: false }).limit(4).then(({ data }) => setDocs(data ?? []));
+    supabase.from("drills").select("*").order("created_at", { ascending: false }).limit(1).then(({ data }) => setDrill(data?.[0] ?? null));
+    supabase.from("photos").select("*").eq("status", "approved").order("created_at", { ascending: false }).limit(5).then(({ data }) => setPulse(data ?? []));
   }, []);
 
   return (
     <AppLayout>
       <PageHeader title={`Welcome, ${profile?.full_name?.split(" ")[0] || "Team"}`} description="Here's what's happening with the program." />
+
+      {(drill || pulse.length > 0) && (
+        <div className="mb-6 grid gap-4 md:grid-cols-2">
+          {drill && (
+            <Card className="glassmorphism-dark">
+              <CardHeader className="pb-2"><CardTitle className="flex items-center gap-2 text-base"><Play className="h-4 w-4" /> Play of the Day</CardTitle></CardHeader>
+              <CardContent>
+                <Link to="/lab" className="block">
+                  <h3 className="font-semibold">{drill.title}</h3>
+                  {drill.description && <p className="mt-1 text-xs opacity-80 line-clamp-2">{drill.description}</p>}
+                  <span className="mt-2 inline-block text-xs uppercase tracking-wider opacity-80">Open the Lab →</span>
+                </Link>
+              </CardContent>
+            </Card>
+          )}
+          {pulse.length > 0 && (
+            <Card>
+              <CardHeader className="pb-2"><CardTitle className="flex items-center gap-2 text-base"><ImageIcon className="h-4 w-4 text-primary" /> Gallery Pulse</CardTitle></CardHeader>
+              <CardContent>
+                <Link to="/gallery" className="grid grid-cols-5 gap-1">
+                  {pulse.map((p) => (
+                    <img key={p.id} src={supabase.storage.from("gallery-photos").getPublicUrl(p.file_path).data.publicUrl} alt="" className="aspect-square w-full rounded object-cover" loading="lazy" />
+                  ))}
+                </Link>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
+
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader className="flex-row items-center justify-between space-y-0">
