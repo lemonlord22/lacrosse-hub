@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ScheduleRouteImport } from './routes/schedule'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as LabRouteImport } from './routes/lab'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ChatsRouteImport } from './routes/chats'
@@ -27,6 +29,16 @@ const ScheduleRoute = ScheduleRouteImport.update({
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LabRoute = LabRouteImport.update({
+  id: '/lab',
+  path: '/lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocumentsRoute = DocumentsRouteImport.update({
@@ -73,6 +85,8 @@ export interface FileRoutesByFullPath {
   '/chats': typeof ChatsRoute
   '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
+  '/gallery': typeof GalleryRoute
+  '/lab': typeof LabRoute
   '/reset-password': typeof ResetPasswordRoute
   '/schedule': typeof ScheduleRoute
 }
@@ -84,6 +98,8 @@ export interface FileRoutesByTo {
   '/chats': typeof ChatsRoute
   '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
+  '/gallery': typeof GalleryRoute
+  '/lab': typeof LabRoute
   '/reset-password': typeof ResetPasswordRoute
   '/schedule': typeof ScheduleRoute
 }
@@ -96,6 +112,8 @@ export interface FileRoutesById {
   '/chats': typeof ChatsRoute
   '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
+  '/gallery': typeof GalleryRoute
+  '/lab': typeof LabRoute
   '/reset-password': typeof ResetPasswordRoute
   '/schedule': typeof ScheduleRoute
 }
@@ -109,6 +127,8 @@ export interface FileRouteTypes {
     | '/chats'
     | '/dashboard'
     | '/documents'
+    | '/gallery'
+    | '/lab'
     | '/reset-password'
     | '/schedule'
   fileRoutesByTo: FileRoutesByTo
@@ -120,6 +140,8 @@ export interface FileRouteTypes {
     | '/chats'
     | '/dashboard'
     | '/documents'
+    | '/gallery'
+    | '/lab'
     | '/reset-password'
     | '/schedule'
   id:
@@ -131,6 +153,8 @@ export interface FileRouteTypes {
     | '/chats'
     | '/dashboard'
     | '/documents'
+    | '/gallery'
+    | '/lab'
     | '/reset-password'
     | '/schedule'
   fileRoutesById: FileRoutesById
@@ -143,6 +167,8 @@ export interface RootRouteChildren {
   ChatsRoute: typeof ChatsRoute
   DashboardRoute: typeof DashboardRoute
   DocumentsRoute: typeof DocumentsRoute
+  GalleryRoute: typeof GalleryRoute
+  LabRoute: typeof LabRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ScheduleRoute: typeof ScheduleRoute
 }
@@ -161,6 +187,20 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lab': {
+      id: '/lab'
+      path: '/lab'
+      fullPath: '/lab'
+      preLoaderRoute: typeof LabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/documents': {
@@ -223,9 +263,20 @@ const rootRouteChildren: RootRouteChildren = {
   ChatsRoute: ChatsRoute,
   DashboardRoute: DashboardRoute,
   DocumentsRoute: DocumentsRoute,
+  GalleryRoute: GalleryRoute,
+  LabRoute: LabRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ScheduleRoute: ScheduleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
