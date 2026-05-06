@@ -63,43 +63,49 @@
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.99 0.005 200);
-  --foreground: oklch(0.18 0.02 220);
+  /* Tactical Athletic palette — Jensen Beach Falcons
+     Midnight Navy #002147 · Electric Blue #007FFF · Metallic Silver #C0C2C9 */
+  --background: oklch(0.985 0.003 240);
+  --foreground: oklch(0.18 0.05 260);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.02 220);
+  --card-foreground: oklch(0.18 0.05 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.02 220);
-  --primary: oklch(0.55 0.13 195);
-  --primary-foreground: oklch(0.99 0.005 200);
-  --primary-glow: oklch(0.68 0.14 190);
-  --secondary: oklch(0.18 0.02 220);
-  --secondary-foreground: oklch(0.99 0.005 200);
-  --muted: oklch(0.96 0.01 200);
-  --muted-foreground: oklch(0.45 0.02 220);
-  --accent: oklch(0.92 0.05 195);
-  --accent-foreground: oklch(0.18 0.02 220);
+  --popover-foreground: oklch(0.18 0.05 260);
+  /* Electric Blue */
+  --primary: oklch(0.62 0.21 252);
+  --primary-foreground: oklch(0.99 0.005 240);
+  --primary-glow: oklch(0.74 0.18 245);
+  /* Midnight Navy */
+  --secondary: oklch(0.22 0.10 260);
+  --secondary-foreground: oklch(0.99 0.005 240);
+  --muted: oklch(0.95 0.008 250);
+  --muted-foreground: oklch(0.46 0.02 260);
+  /* Metallic Silver tint */
+  --accent: oklch(0.86 0.012 250);
+  --accent-foreground: oklch(0.22 0.10 260);
   --destructive: oklch(0.6 0.22 25);
   --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.9 0.015 210);
-  --input: oklch(0.93 0.015 210);
-  --ring: oklch(0.55 0.13 195);
-  --gradient-hero: linear-gradient(135deg, oklch(0.18 0.02 220) 0%, oklch(0.32 0.08 200) 60%, oklch(0.55 0.13 195) 100%);
+  --border: oklch(0.89 0.01 250);
+  --input: oklch(0.93 0.01 250);
+  --ring: oklch(0.62 0.21 252);
+  --silver: oklch(0.82 0.012 250);
+  --gradient-hero: linear-gradient(135deg, oklch(0.18 0.10 260) 0%, oklch(0.26 0.12 258) 55%, oklch(0.55 0.20 252) 100%);
   --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-glow));
-  --shadow-elegant: 0 10px 40px -10px color-mix(in oklab, var(--primary) 40%, transparent);
-  --shadow-card: 0 2px 12px -4px color-mix(in oklab, var(--secondary) 15%, transparent);
+  --shadow-elegant: 0 10px 40px -10px color-mix(in oklab, var(--primary) 45%, transparent);
+  --shadow-card: 0 2px 12px -4px color-mix(in oklab, var(--secondary) 18%, transparent);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.18 0.02 220);
-  --sidebar-foreground: oklch(0.99 0.005 200);
-  --sidebar-primary: oklch(0.55 0.13 195);
+  --sidebar: oklch(0.18 0.10 260);
+  --sidebar-foreground: oklch(0.99 0.005 240);
+  --sidebar-primary: oklch(0.62 0.21 252);
   --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.25 0.04 215);
-  --sidebar-accent-foreground: oklch(0.99 0.005 200);
-  --sidebar-border: oklch(0.28 0.03 215);
-  --sidebar-ring: oklch(0.55 0.13 195);
+  --sidebar-accent: oklch(0.26 0.10 260);
+  --sidebar-accent-foreground: oklch(0.99 0.005 240);
+  --sidebar-border: oklch(0.30 0.08 260);
+  --sidebar-ring: oklch(0.62 0.21 252);
 }
 
 .dark {
@@ -146,4 +152,37 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+}
+
+@layer utilities {
+  /* Frosted tactical surface */
+  .glassmorphism {
+    background: color-mix(in oklab, var(--card) 65%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid color-mix(in oklab, var(--silver) 40%, transparent);
+    box-shadow: var(--shadow-card);
+  }
+  .glassmorphism-dark {
+    background: color-mix(in oklab, var(--secondary) 55%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid color-mix(in oklab, var(--primary) 25%, transparent);
+    color: var(--secondary-foreground);
+  }
+  /* Kinetic press feedback */
+  .kinetic-button {
+    transition: transform 150ms cubic-bezier(.2,.8,.2,1), box-shadow 150ms ease, filter 150ms ease;
+    will-change: transform;
+  }
+  .kinetic-button:hover { transform: scale(0.98); filter: brightness(1.05); }
+  .kinetic-button:active { transform: scale(0.96); }
+  /* Tactical headings */
+  .tactical-heading {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 800;
+  }
+  /* Field-ops thumb target */
+  .field-tap { min-height: 44px; min-width: 44px; }
 }
