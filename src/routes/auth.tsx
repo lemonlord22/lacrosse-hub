@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
-  head: () => ({ meta: [{ title: "Sign in — LaxHub" }] }),
+  head: () => ({ meta: [{ title: "Secure Access — Jensen Beach Boys Lacrosse" }] }),
   component: AuthPage,
 });
 
@@ -75,11 +75,12 @@ function AuthPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-secondary p-4" style={{ background: "var(--gradient-hero)" }}>
-      <div className="w-full max-w-md rounded-2xl border bg-card p-8 shadow-xl">
-        <Link to="/" className="mb-6 flex items-center gap-2 font-display text-xl font-bold">
-          <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground">L</span>
-          LaxHub
+      <div className="w-full max-w-md rounded-2xl glassmorphism p-8 shadow-2xl">
+        <Link to="/" className="mb-2 flex items-center gap-2 font-display text-xl font-bold">
+          <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground text-xs font-extrabold">JB</span>
+          <span className="tactical-heading">Falcon Protocol</span>
         </Link>
+        <p className="mb-6 text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Secure Access · Jensen Beach Boys Lacrosse</p>
         <Tabs defaultValue="signin">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="signin">Sign in</TabsTrigger>
@@ -89,7 +90,7 @@ function AuthPage() {
             <form onSubmit={handleSignIn} className="mt-4 space-y-3">
               <div><Label>Email</Label><Input type="email" required value={siEmail} onChange={(e) => setSiEmail(e.target.value)} /></div>
               <div><Label>Password</Label><Input type="password" required value={siPass} onChange={(e) => setSiPass(e.target.value)} /></div>
-              <Button type="submit" className="w-full" disabled={busy}>{busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Sign in</Button>
+              <Button type="submit" className="kinetic-button field-tap w-full" disabled={busy}>{busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Sign in</Button>
               <button type="button" onClick={handleForgot} className="block w-full text-center text-xs text-muted-foreground hover:text-foreground">Forgot password?</button>
             </form>
           </TabsContent>
@@ -125,10 +126,11 @@ function AuthPage() {
               {suRole === "parent" && (
                 <div><Label>Athlete's name</Label><Input value={suChild} onChange={(e) => setSuChild(e.target.value)} /></div>
               )}
-              <Button type="submit" className="w-full" disabled={busy}>{busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Create account</Button>
+              <Button type="submit" className="kinetic-button field-tap w-full" disabled={busy}>{busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Create account</Button>
             </form>
           </TabsContent>
         </Tabs>
+        <p className="mt-6 text-center text-[10px] uppercase tracking-[0.25em] text-muted-foreground/70">Falcon Protocol v1.0</p>
       </div>
     </div>
   );
