@@ -71,6 +71,83 @@ export type Database = {
         }
         Relationships: []
       }
+      drill_submissions: {
+        Row: {
+          clip_url: string | null
+          coach_feedback: string | null
+          created_at: string
+          drill_id: string
+          id: string
+          note: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          clip_url?: string | null
+          coach_feedback?: string | null
+          created_at?: string
+          drill_id: string
+          id?: string
+          note?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          clip_url?: string | null
+          coach_feedback?: string | null
+          created_at?: string
+          drill_id?: string
+          id?: string
+          note?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drill_submissions_drill_id_fkey"
+            columns: ["drill_id"]
+            isOneToOne: false
+            referencedRelation: "drills"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      drills: {
+        Row: {
+          audience: Database["public"]["Enums"]["audience"]
+          created_at: string
+          created_by: string
+          description: string | null
+          due_at: string | null
+          id: string
+          title: string
+          video_url: string | null
+        }
+        Insert: {
+          audience?: Database["public"]["Enums"]["audience"]
+          created_at?: string
+          created_by: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          title: string
+          video_url?: string | null
+        }
+        Update: {
+          audience?: Database["public"]["Enums"]["audience"]
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          title?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           audience: Database["public"]["Enums"]["audience"]
@@ -113,6 +190,97 @@ export type Database = {
         }
         Relationships: []
       }
+      film_clip_tags: {
+        Row: {
+          clip_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          clip_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          clip_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "film_clip_tags_clip_id_fkey"
+            columns: ["clip_id"]
+            isOneToOne: false
+            referencedRelation: "film_clips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      film_clips: {
+        Row: {
+          audience: Database["public"]["Enums"]["audience"]
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          title: string
+          video_url: string
+        }
+        Insert: {
+          audience?: Database["public"]["Enums"]["audience"]
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          title: string
+          video_url: string
+        }
+        Update: {
+          audience?: Database["public"]["Enums"]["audience"]
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          title?: string
+          video_url?: string
+        }
+        Relationships: []
+      }
+      film_comments: {
+        Row: {
+          author_id: string
+          body: string
+          clip_id: string
+          created_at: string
+          id: string
+          timestamp_seconds: number
+        }
+        Insert: {
+          author_id: string
+          body: string
+          clip_id: string
+          created_at?: string
+          id?: string
+          timestamp_seconds?: number
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          clip_id?: string
+          created_at?: string
+          id?: string
+          timestamp_seconds?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "film_comments_clip_id_fkey"
+            columns: ["clip_id"]
+            isOneToOne: false
+            referencedRelation: "film_clips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           author_id: string
@@ -137,6 +305,173 @@ export type Database = {
           id?: string
           pinned?: boolean
           room?: Database["public"]["Enums"]["chat_room"]
+        }
+        Relationships: []
+      }
+      photos: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          caption: string | null
+          created_at: string
+          file_path: string
+          id: string
+          status: string
+          tag: string | null
+          uploader_id: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          caption?: string | null
+          created_at?: string
+          file_path: string
+          id?: string
+          status?: string
+          tag?: string | null
+          uploader_id: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          caption?: string | null
+          created_at?: string
+          file_path?: string
+          id?: string
+          status?: string
+          tag?: string | null
+          uploader_id?: string
+        }
+        Relationships: []
+      }
+      playbook_items: {
+        Row: {
+          audience: Database["public"]["Enums"]["audience"]
+          created_at: string
+          created_by: string
+          description: string | null
+          diagram_url: string | null
+          file_path: string | null
+          id: string
+          title: string
+        }
+        Insert: {
+          audience?: Database["public"]["Enums"]["audience"]
+          created_at?: string
+          created_by: string
+          description?: string | null
+          diagram_url?: string | null
+          file_path?: string | null
+          id?: string
+          title: string
+        }
+        Update: {
+          audience?: Database["public"]["Enums"]["audience"]
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          diagram_url?: string | null
+          file_path?: string | null
+          id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      poll_options: {
+        Row: {
+          id: string
+          is_correct: boolean
+          label: string
+          poll_id: string
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          is_correct?: boolean
+          label: string
+          poll_id: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          is_correct?: boolean
+          label?: string
+          poll_id?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "poll_options_poll_id_fkey"
+            columns: ["poll_id"]
+            isOneToOne: false
+            referencedRelation: "polls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      poll_votes: {
+        Row: {
+          created_at: string
+          id: string
+          option_id: string
+          poll_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          option_id: string
+          poll_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          option_id?: string
+          poll_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "poll_votes_option_id_fkey"
+            columns: ["option_id"]
+            isOneToOne: false
+            referencedRelation: "poll_options"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "poll_votes_poll_id_fkey"
+            columns: ["poll_id"]
+            isOneToOne: false
+            referencedRelation: "polls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      polls: {
+        Row: {
+          audience: Database["public"]["Enums"]["audience"]
+          closes_at: string | null
+          created_at: string
+          created_by: string
+          id: string
+          question: string
+        }
+        Insert: {
+          audience?: Database["public"]["Enums"]["audience"]
+          closes_at?: string | null
+          created_at?: string
+          created_by: string
+          id?: string
+          question: string
+        }
+        Update: {
+          audience?: Database["public"]["Enums"]["audience"]
+          closes_at?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          question?: string
         }
         Relationships: []
       }
